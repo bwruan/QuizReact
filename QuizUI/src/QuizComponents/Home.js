@@ -8,6 +8,11 @@ const Home = () => {
   const category = queryParams.get("category");
   const difficulty = queryParams.get("difficulty");
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(n, difficulty, category);
+  };
+
   return (
     <>
       <Container>
@@ -50,8 +55,12 @@ const Home = () => {
                   <option value="Difficult">Difficult</option>
                 </select>
 
-                <button type="submit" className="submit-btn">
-                  <Link to="/quiz">Start Quiz</Link>
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="submit-btn"
+                >
+                  Start Quiz
                 </button>
               </div>
             </form>

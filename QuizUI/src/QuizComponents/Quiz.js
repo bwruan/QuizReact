@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { getNQuestionsByCategoryAndDifficult } from "../Services/QuizApiService";
+import { useParams } from "react-router-dom";
 
 const Quiz = () => {
+  const { n, category, difficulty } = useParams();
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
