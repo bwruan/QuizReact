@@ -21,7 +21,7 @@ export const getNQuestionsByCategoryAndDifficult = async function (
   return await response.json();
 };
 
-export const CheckAnswer = async function () {
+export const checkAnswer = async function (questionId, answer) {
   var baseUrl = process.env.REACT_APP_QUIZ_API_URL;
   const response = await fetch(baseUrl + "/quiz/answer");
 
