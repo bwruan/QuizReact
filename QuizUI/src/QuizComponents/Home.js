@@ -1,16 +1,13 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Home = () => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const n = queryParams.get("n");
-  const category = queryParams.get("category");
-  const difficulty = queryParams.get("difficulty");
+  const { n, category, difficulty } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(n, difficulty, category);
+    console.log(n, category, difficulty);
   };
 
   return (
@@ -55,13 +52,15 @@ const Home = () => {
                   <option value="Difficult">Difficult</option>
                 </select>
 
-                <button
-                  type="submit"
-                  onClick={handleSubmit}
+                {/* <button type="submit" className="submit-btn">
+                  Start Quiz
+                </button> */}
+                <Link
                   className="submit-btn"
+                  to={`/quiz/${n}/${category}/${difficulty}}`}
                 >
                   Start Quiz
-                </button>
+                </Link>
               </div>
             </form>
           </section>

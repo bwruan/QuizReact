@@ -9,7 +9,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/:n/:difficulty/:category" element={<Quiz />}></Route>
+          <Route
+            path="/quiz/:n/:category/:difficulty"
+            element={<Quiz />}
+          ></Route>
         </Routes>
       </Router>
     </>

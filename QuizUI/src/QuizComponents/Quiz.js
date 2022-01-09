@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { getNQuestionsByCategoryAndDifficult } from "../Services/QuizApiService";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Quiz = () => {
-  const { n, category, difficulty } = useParams();
+  const queryParams = new URLSearchParams(window.location.search);
+  const n = queryParams.get("n");
+  const category = queryParams.get("category");
+  const difficulty = queryParams.get("difficulty");
+
   const [questions, setQuestions] = useState([]);
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if()
+  // };
 
   useEffect(() => {
     (async function () {
       try {
         const question = await getNQuestionsByCategoryAndDifficult(
-          n,
-          category,
-          difficulty
+          3,
+          "harry potter",
+          "easy"
         );
         setQuestions(question);
       } catch (e) {
@@ -22,24 +31,32 @@ const Quiz = () => {
   }, []);
 
   return (
-    <>
-      {questions.map((quizQuestion) => {
-        const { questionId, question, answer, category, difficulty } =
-          quizQuestion;
+    <div className="quiz quiz-small">
+      <Link to="/" className="back-btn">
+        Exit Quiz
+      </Link>
+      <p className="correct-answers">Correct Answers: 0/0</p>
+      {questions.map((quizQ) => {
+        const { questionId, question1, answer, category, difficulty } = quizQ;
         return (
-          <form className="quiz-page">
-            <ol key={questionId} className="questions">
-              <li>
-                {question}
-                <label htmlFor="answer">Answer: </label>
-                <input type="text" name="answer" id="answer" />
+          <form className="form-control">
+            <ol key={questionId} type="1">
+              <li className="quiz-q">
+                {question1}
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="Answer"
+                />
               </li>
             </ol>
-            <button type="submit">Submit</button>
           </form>
         );
       })}
-    </>
+      <button type="submit" className="answer-btn">
+        Submit
+      </button>
+    </div>
   );
 };
 
