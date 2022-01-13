@@ -11,8 +11,14 @@ const Home = () => {
 
   const handleChange = (e) => {
     const name = e.target.name;
-    const params = e.target.value;
-    setParams({ ...params, [name]: params });
+    const value = e.target.value;
+    if (name === "n") {
+      setParams({ ...params, n: value });
+    } else if (name === "category") {
+      setParams({ ...params, category: value });
+    } else {
+      setParams({ ...params, difficulty: value });
+    }
   };
 
   return (
@@ -66,12 +72,9 @@ const Home = () => {
                   <option value="Difficult">Difficult</option>
                 </select>
 
-                {/* <button type="submit" className="submit-btn">
-                  Start Quiz
-                </button> */}
                 <Link
                   className="submit-btn"
-                  to={`/quiz/${params.n}/${params.category}/${params.difficulty}}`}
+                  to={`/quiz/${params.n}/${params.category}/${params.difficulty}`}
                 >
                   Start Quiz
                 </Link>
