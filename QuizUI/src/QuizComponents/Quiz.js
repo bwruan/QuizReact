@@ -8,8 +8,9 @@ import { Link, useParams } from "react-router-dom";
 const Quiz = () => {
   console.log(useParams());
   const { n, category, difficulty } = useParams();
-
+  const isCorrectAnswer = [];
   const [questions, setQuestions] = useState([]);
+
   useEffect(() => {
     (async function () {
       try {
@@ -26,14 +27,40 @@ const Quiz = () => {
   }, []);
 
   const handleAnswerChange = (e) => {
-    console.log(e.target.value);
+    setQuestions((prevQ) => {
+      for (var i = 0; i < prevQ.length; i++) {
+        if (parseInt(e.target.name) === prevQ[i].questionId) {
+          prevQ[i].userAnswer = e.target.value;
+        }
+      }
+      return prevQ;
+    });
   };
 
   const count = 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    console.log(questions);
+    for (var i = 0; i < questions.length; i++) {
+      (async function () {
+        try {
+          const isCorrect = await checkAnswer(
+            questions[i].questionId,
+            questions[i].userAnswer
+          );
+          isCorrectAnswer.push(isCorrect);
+        } catch (e) {
+          alert("Failed to check answer with error: " + e.message);
+        }
+      })();
+    }
+
+    for (var j = 0; j < isCorrectAnswer.length; j++) {
+      if (isCorrectAnswer[j] === true) {
+        count += 1;
+      }
+    }
   };
 
   return (
@@ -56,6 +83,7 @@ const Quiz = () => {
                   className="form-input"
                   placeholder="Answer"
                   onChange={handleAnswerChange}
+                  name={questionId}
                 />
               </li>
             );

@@ -19,9 +19,9 @@ namespace Quiz.Domain.Service
             _mapper = mapper;
         }
 
-        public async Task<bool> CheckAnswer(long questionId, string answer)
+        public async Task<bool> CheckAnswer(long questionId, string userAnswer)
         {
-            if (await _quizRepository.CheckAnswer(questionId, answer) == false)
+            if (await _quizRepository.CheckAnswer(questionId, userAnswer) == false)
             {
                 return false;
             }

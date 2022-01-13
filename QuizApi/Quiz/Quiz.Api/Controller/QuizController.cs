@@ -44,7 +44,7 @@ namespace Quiz.Api.Controller
         {
             try
             {
-                var isCorrect = await _quizService.CheckAnswer(request.QuestionId, request.Answer);
+                var isCorrect = await _quizService.CheckAnswer(request.QuestionId, request.UserAnswer);
 
                 return Ok(isCorrect);
             }
