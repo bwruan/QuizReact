@@ -15,5 +15,7 @@ namespace Quiz.Domain.Models
         public string Category { get; set; }
         
         public string Difficulty { get; set; }
+
+        public string UserAnswer { get; set; }
     }
 }

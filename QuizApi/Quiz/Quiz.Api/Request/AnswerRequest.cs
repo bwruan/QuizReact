@@ -9,6 +9,6 @@ namespace Quiz.Api.Request
     {
         public long QuestionId { get; set; }
 
-        public string Answer { get; set; }
+        public string UserAnswer { get; set; }
     }
 }

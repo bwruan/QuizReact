@@ -3,7 +3,6 @@ using Quiz.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Quiz.Infrastructure
@@ -19,32 +18,34 @@ namespace Quiz.Infrastructure
                 var questionList = new List<Question>();
                 var skipAmt = 0;
 
+                if(n == 20)
+                {
+                    foreach(var q in questions)
+                    {
+                        questionList.Add(q);
+                    }
+
+                    return questionList;
+                }
+
+                var hash = new HashSet<long>();
+                var dbQ = new List<Question>();
+                
                 for (int i = 0; i < n; i++)
                 {
-                    var rnd = new Random();
-                    skipAmt = rnd.Next(0, questions.Count);
+                    do
+                    {
+                        var rnd = new Random();
+                        skipAmt = rnd.Next(0, questions.Count);
 
-                    var q = questions.Skip(skipAmt).Take(1);
+                        dbQ = questions.Skip(skipAmt).Take(1).ToList();
+                    } while (hash.Contains(dbQ[0].QuestionId));
 
-                    questionList.Add(q.FirstOrDefault());
+                    hash.Add(dbQ[0].QuestionId);
+                    questionList.Add(dbQ.FirstOrDefault());
                 }
 
                 return questionList;
-            }
-        }
-
-        public async Task<bool> CheckAnswer(long questionId, string answer)
-        {
-            using (var context = new QuizReactContext())
-            {
-                var correctAns = await context.Questions.Where(q => q.QuestionId == questionId).Select(q => q.Answer).FirstOrDefaultAsync();
-
-                if (answer != correctAns)
-                {
-                    return false;
-                }
-
-                return true;
             }
         }
     }
