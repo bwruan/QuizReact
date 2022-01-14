@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quiz.Api.Request;
 using Quiz.Domain.Service;
@@ -31,22 +28,6 @@ namespace Quiz.Api.Controller
                 var questions = await _quizService.GetNQuestionsByCategoryAndDifficult(n, category, difficulty);
 
                 return Ok(questions);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        [HttpPost("answer")]
-        [AllowAnonymous]
-        public async Task<IActionResult> CheckAnswer([FromBody] AnswerRequest request)
-        {
-            try
-            {
-                var isCorrect = await _quizService.CheckAnswer(request.QuestionId, request.UserAnswer);
-
-                return Ok(isCorrect);
             }
             catch (Exception ex)
             {

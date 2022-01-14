@@ -3,7 +3,6 @@ using Quiz.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Quiz.Infrastructure
@@ -47,21 +46,6 @@ namespace Quiz.Infrastructure
                 }
 
                 return questionList;
-            }
-        }
-
-        public async Task<bool> CheckAnswer(long questionId, string userAnswer)
-        {
-            using (var context = new QuizReactContext())
-            {
-                var correctAns = await context.Questions.Where(q => q.QuestionId == questionId).Select(q => q.Answer).FirstOrDefaultAsync();
-
-                if (userAnswer != correctAns)
-                {
-                    return false;
-                }
-
-                return true;
             }
         }
     }

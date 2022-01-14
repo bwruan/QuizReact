@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  getNQuestionsByCategoryAndDifficult,
-  checkAnswer,
-} from "../Services/QuizApiService";
+import { getNQuestionsByCategoryAndDifficult } from "../Services/QuizApiService";
 import { Link, useParams } from "react-router-dom";
 
 const Quiz = () => {
   console.log(useParams());
   const { n, category, difficulty } = useParams();
-  const isCorrectAnswer = [];
   const [questions, setQuestions] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [count, setCount] = useState(0);
+  let correctCount = 0;
 
   useEffect(() => {
     (async function () {
@@ -37,30 +36,16 @@ const Quiz = () => {
     });
   };
 
-  const count = 0;
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(questions);
-    for (var i = 0; i < questions.length; i++) {
-      (async function () {
-        try {
-          const isCorrect = await checkAnswer(
-            questions[i].questionId,
-            questions[i].userAnswer
-          );
-          isCorrectAnswer.push(isCorrect);
-        } catch (e) {
-          alert("Failed to check answer with error: " + e.message);
-        }
-      })();
-    }
-
-    for (var j = 0; j < isCorrectAnswer.length; j++) {
-      if (isCorrectAnswer[j] === true) {
-        count += 1;
+    setIsDisabled(true);
+    for (let i = 0; i < questions.length; i++) {
+      if (questions[i].userAnswer === questions[i].answer) {
+        correctCount += 1;
       }
     }
+
+    setCount(correctCount);
   };
 
   return (
@@ -89,7 +74,7 @@ const Quiz = () => {
             );
           })}
         </ol>
-        <button type="submit" className="answer-btn">
+        <button type="submit" className="answer-btn" disabled={isDisabled}>
           Submit
         </button>
       </form>

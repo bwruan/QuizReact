@@ -6,7 +6,6 @@ namespace Quiz.Domain.Service
 {
     public interface IQuizService
     {
-        Task<bool> CheckAnswer(long questionId, string answer);
         Task<List<Question>> GetNQuestionsByCategoryAndDifficult(int n, string category, string difficulty);
     }
 }
